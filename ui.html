@@ -1,0 +1,43 @@
+<ul>
+  <li>
+    Total Characters: <span id="characters"></span>
+  </li>
+  <li>
+    Alphabetic Characters: <span id="alphabetic"></span>
+  </li>
+  <li>
+    Spaces: <span id="spaces"></span>
+  </li>
+  <li>
+    Words: <span id="words"></span>
+  </li>
+</ul>
+
+<button id="count">Count Characters</button>
+
+<script>
+
+document.getElementById('count').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
+}
+
+onmessage = (event) => {
+  if (event.data.pluginMessage === 'notext') {
+    alert('notext')
+  }
+  else {
+    document
+      .getElementById('characters')
+      .innerHTML = event.data.pluginMessage.charCount
+    document
+      .getElementById('spaces')
+      .innerHTML = event.data.pluginMessage.spaceCount
+    document
+      .getElementById('alphabetic')
+      .innerHTML = event.data.pluginMessage.alphaCount
+    document
+      .getElementById('words')
+      .innerHTML = event.data.pluginMessage.wordCount
+  }
+}
+</script>

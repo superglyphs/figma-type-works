@@ -1,0 +1,7 @@
+{
+  "name": "Character Counter",
+  "id": "740632514053994647",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html"
+}
