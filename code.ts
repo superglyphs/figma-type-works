@@ -1,4 +1,5 @@
 figma.showUI(__html__);
+figma.ui.resize(300, 360)
 
 figma.ui.onmessage = msg => {
 
@@ -17,13 +18,18 @@ figma.ui.onmessage = msg => {
         const spaces = node.characters.split(" ").length - 1
         
         // counts only alphabetic characters
-        const alphabetics = node.characters.match(/[a-zA-Z]+/g).join('').length
-
+        let alphabetics = !node.characters.match(/[0-9]+$/g) ? node.characters.match(/[a-zA-Z]+/g).join('').length : 0;
+        
         // counts words
         const words = node.characters.split(/ +/).length
 
+        // name 
+        const name = node.name;
+
         // sends count data to ui
         figma.ui.postMessage({
+          type: 'text',
+          layerName: name,
           spaceCount: spaces, 
           charCount: chars,
           alphaCount: alphabetics,
@@ -33,8 +39,14 @@ figma.ui.onmessage = msg => {
 
       // signal to ui that selection is not text
       else {
-        figma.ui.postMessage('notext')
+        const name = node.name;
+        figma.ui.postMessage({
+          type: 'not-text',
+          layerName: name
+        })
       }
     }
+
+
   }
 };

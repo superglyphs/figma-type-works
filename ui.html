@@ -1,43 +1,330 @@
-<ul>
-  <li>
-    Total Characters: <span id="characters"></span>
-  </li>
-  <li>
-    Alphabetic Characters: <span id="alphabetic"></span>
-  </li>
-  <li>
-    Spaces: <span id="spaces"></span>
-  </li>
-  <li>
-    Words: <span id="words"></span>
-  </li>
-</ul>
+<style>
 
-<button id="count">Count Characters</button>
+body {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+h3, h4, ul, p {
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #5B5B5B;
+}
+
+h4 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  color: #18A0FB;
+  margin-bottom: 8px;
+}
+
+p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  color: #5B5B5B;
+}
+
+ul {
+  margin-top: 16px;
+}
+
+ul li {
+  list-style: none;
+  margin: 0 20px;
+  height: 48px;
+  line-height: 48px;
+  text-align: left;
+  text-transform: uppercase;
+  color: #5B5B5B;
+  font-weight: bold;
+  font-size: 12px;
+  border-bottom: 1px dashed #E0E0E0;
+}
+
+ul li span {
+  float: right;
+  font-weight: normal;
+  color: #303030;
+  font-size: 16px;
+}
+
+ul li svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+button {
+  border-radius: 8px;
+  height: 36px;
+  padding: 0 24px;
+  width: auto;
+  border-radius: 8px;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 36px;
+  margin-top: 32px;
+  background-color: #18A0FB;
+  transition: 0.3s;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #007DD0;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.counter-body > svg {
+  margin: 16px;
+}
+
+#text-counted,
+#not-text {
+  display: none;
+}
+
+#layername {
+  text-transform: none;
+  color: #18A0FB;
+  display: inline-block;
+  overflow: hidden;
+  width: 80%;
+  text-overflow: ellipsis;
+  height: 16px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+</style>
+
+<div id="layername"> </div>
+
+<div id="text-counted" class="counter-body">
+    <h3>Character Count</h3>
+    <ul>
+        <li>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="4117" height="2830" transform="translate(-2116 -443)" fill="#E0E0E0"/>
+              <g filter="url(#filter0_d)">
+              <path d="M-20 -95H280V331H-20V-95Z" fill="white"/>
+              </g>
+              <rect width="24" height="24" rx="4" fill="#EDF8FF"/>
+              <path d="M8.9082 13.5977H7.77734L7.35547 16H6.2832L6.70508 13.5977H5.375V12.5898H6.88086L7.17383 10.9258H5.81445V9.90625H7.35547L7.7832 7.46875H8.84961L8.42188 9.90625H9.55859L9.98633 7.46875H11.0586L10.6309 9.90625H11.9141V10.9258H10.4492L10.1562 12.5898H11.4688V13.5977H9.98047L9.55859 16H8.48633L8.9082 13.5977ZM7.95312 12.5898H9.08398L9.37695 10.9258H8.24023L7.95312 12.5898Z" fill="#EB4FC9"/>
+              <path d="M16.4727 16C16.3945 15.8477 16.3379 15.6582 16.3027 15.4316C15.8926 15.8887 15.3594 16.1172 14.7031 16.1172C14.082 16.1172 13.5664 15.9375 13.1562 15.5781C12.75 15.2188 12.5469 14.7656 12.5469 14.2188C12.5469 13.5469 12.7949 13.0312 13.291 12.6719C13.791 12.3125 14.5117 12.1309 15.4531 12.127H16.2324V11.7637C16.2324 11.4707 16.1562 11.2363 16.0039 11.0605C15.8555 10.8848 15.6191 10.7969 15.2949 10.7969C15.0098 10.7969 14.7852 10.8652 14.6211 11.002C14.4609 11.1387 14.3809 11.3262 14.3809 11.5645H12.6875C12.6875 11.1973 12.8008 10.8574 13.0273 10.5449C13.2539 10.2324 13.5742 9.98828 13.9883 9.8125C14.4023 9.63281 14.8672 9.54297 15.3828 9.54297C16.1641 9.54297 16.7832 9.74023 17.2402 10.1348C17.7012 10.5254 17.9316 11.0762 17.9316 11.7871V14.5352C17.9355 15.1367 18.0195 15.5918 18.1836 15.9004V16H16.4727ZM15.0723 14.8223C15.3223 14.8223 15.5527 14.7676 15.7637 14.6582C15.9746 14.5449 16.1309 14.3945 16.2324 14.207V13.1172H15.5996C14.752 13.1172 14.3008 13.4102 14.2461 13.9961L14.2402 14.0957C14.2402 14.3066 14.3145 14.4805 14.4629 14.6172C14.6113 14.7539 14.8145 14.8223 15.0723 14.8223Z" fill="#0F94DF"/>
+              <defs>
+              <filter id="filter0_d" x="-24" y="-95" width="308" height="434" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+              <feOffset dy="4"/>
+              <feGaussianBlur stdDeviation="2"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+              </defs>
+            </svg>              
+          Total: <span id="characters"></span>
+        </li>
+        <li>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="4117" height="2830" transform="translate(-2116 -491)" fill="#E0E0E0"/>
+              <g filter="url(#filter0_d)">
+              <path d="M-20 -143H280V283H-20V-143Z" fill="white"/>
+              </g>
+              <rect width="24" height="24" rx="4" fill="#EDF8FF"/>
+              <path d="M6.32422 16C6.24609 15.8477 6.18945 15.6582 6.1543 15.4316C5.74414 15.8887 5.21094 16.1172 4.55469 16.1172C3.93359 16.1172 3.41797 15.9375 3.00781 15.5781C2.60156 15.2188 2.39844 14.7656 2.39844 14.2188C2.39844 13.5469 2.64648 13.0312 3.14258 12.6719C3.64258 12.3125 4.36328 12.1309 5.30469 12.127H6.08398V11.7637C6.08398 11.4707 6.00781 11.2363 5.85547 11.0605C5.70703 10.8848 5.4707 10.7969 5.14648 10.7969C4.86133 10.7969 4.63672 10.8652 4.47266 11.002C4.3125 11.1387 4.23242 11.3262 4.23242 11.5645H2.53906C2.53906 11.1973 2.65234 10.8574 2.87891 10.5449C3.10547 10.2324 3.42578 9.98828 3.83984 9.8125C4.25391 9.63281 4.71875 9.54297 5.23438 9.54297C6.01562 9.54297 6.63477 9.74023 7.0918 10.1348C7.55273 10.5254 7.7832 11.0762 7.7832 11.7871V14.5352C7.78711 15.1367 7.87109 15.5918 8.03516 15.9004V16H6.32422ZM4.92383 14.8223C5.17383 14.8223 5.4043 14.7676 5.61523 14.6582C5.82617 14.5449 5.98242 14.3945 6.08398 14.207V13.1172H5.45117C4.60352 13.1172 4.15234 13.4102 4.09766 13.9961L4.0918 14.0957C4.0918 14.3066 4.16602 14.4805 4.31445 14.6172C4.46289 14.7539 4.66602 14.8223 4.92383 14.8223Z" fill="#0F94DF"/>
+              <path d="M9.17188 15.168C9.17188 14.8984 9.26172 14.6797 9.44141 14.5117C9.625 14.3438 9.85352 14.2598 10.127 14.2598C10.4043 14.2598 10.6328 14.3438 10.8125 14.5117C10.9961 14.6797 11.0879 14.8984 11.0879 15.168C11.0879 15.4336 10.998 15.6504 10.8184 15.8184C10.6387 15.9824 10.4082 16.0645 10.127 16.0645C9.84961 16.0645 9.62109 15.9824 9.44141 15.8184C9.26172 15.6504 9.17188 15.4336 9.17188 15.168ZM12.6641 15.168C12.6641 14.8984 12.7539 14.6797 12.9336 14.5117C13.1172 14.3438 13.3457 14.2598 13.6191 14.2598C13.8965 14.2598 14.125 14.3438 14.3047 14.5117C14.4883 14.6797 14.5801 14.8984 14.5801 15.168C14.5801 15.4336 14.4902 15.6504 14.3105 15.8184C14.1309 15.9824 13.9004 16.0645 13.6191 16.0645C13.3418 16.0645 13.1133 15.9824 12.9336 15.8184C12.7539 15.6504 12.6641 15.4336 12.6641 15.168Z" fill="#EB4FC9"/>
+              <path d="M17.5957 14.6348H20.6953V16H15.4336V14.9688L18.416 11.0312H15.5215V9.66016H20.6016V10.6621L17.5957 14.6348Z" fill="#0F94DF"/>
+              <defs>
+              <filter id="filter0_d" x="-24" y="-143" width="308" height="434" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+              <feOffset dy="4"/>
+              <feGaussianBlur stdDeviation="2"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+              </defs>
+            </svg>                           
+          Alphabetic: <span id="alphabetic"></span>
+        </li>
+        <li>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="4117" height="2830" transform="translate(-2116 -540)" fill="#E0E0E0"/>
+              <g filter="url(#filter0_d)">
+              <path d="M-20 -192H280V234H-20V-192Z" fill="white"/>
+              </g>
+              <rect width="24" height="24" rx="4" fill="#EDF8FF"/>
+              <path d="M6.32422 16C6.24609 15.8477 6.18945 15.6582 6.1543 15.4316C5.74414 15.8887 5.21094 16.1172 4.55469 16.1172C3.93359 16.1172 3.41797 15.9375 3.00781 15.5781C2.60156 15.2188 2.39844 14.7656 2.39844 14.2188C2.39844 13.5469 2.64648 13.0312 3.14258 12.6719C3.64258 12.3125 4.36328 12.1309 5.30469 12.127H6.08398V11.7637C6.08398 11.4707 6.00781 11.2363 5.85547 11.0605C5.70703 10.8848 5.4707 10.7969 5.14648 10.7969C4.86133 10.7969 4.63672 10.8652 4.47266 11.002C4.3125 11.1387 4.23242 11.3262 4.23242 11.5645H2.53906C2.53906 11.1973 2.65234 10.8574 2.87891 10.5449C3.10547 10.2324 3.42578 9.98828 3.83984 9.8125C4.25391 9.63281 4.71875 9.54297 5.23438 9.54297C6.01562 9.54297 6.63477 9.74023 7.0918 10.1348C7.55273 10.5254 7.7832 11.0762 7.7832 11.7871V14.5352C7.78711 15.1367 7.87109 15.5918 8.03516 15.9004V16H6.32422ZM4.92383 14.8223C5.17383 14.8223 5.4043 14.7676 5.61523 14.6582C5.82617 14.5449 5.98242 14.3945 6.08398 14.207V13.1172H5.45117C4.60352 13.1172 4.15234 13.4102 4.09766 13.9961L4.0918 14.0957C4.0918 14.3066 4.16602 14.4805 4.31445 14.6172C4.46289 14.7539 4.66602 14.8223 4.92383 14.8223Z" fill="#0F94DF"/>
+              <path d="M21.3633 12.8887C21.3633 13.9043 21.1465 14.6973 20.7129 15.2676C20.2793 15.834 19.6738 16.1172 18.8965 16.1172C18.209 16.1172 17.6602 15.8535 17.25 15.3262L17.1738 16H15.6504V7H17.3438V10.2285C17.7344 9.77148 18.248 9.54297 18.8848 9.54297C19.6582 9.54297 20.2637 9.82812 20.7012 10.3984C21.1426 10.9648 21.3633 11.7637 21.3633 12.7949V12.8887ZM19.6699 12.7656C19.6699 12.125 19.5684 11.6582 19.3652 11.3652C19.1621 11.0684 18.8594 10.9199 18.457 10.9199C17.918 10.9199 17.5469 11.1406 17.3438 11.582V14.084C17.5508 14.5293 17.9258 14.752 18.4688 14.752C19.0156 14.752 19.375 14.4824 19.5469 13.9434C19.6289 13.6855 19.6699 13.293 19.6699 12.7656Z" fill="#0F94DF"/>
+              <rect x="10" y="6" width="3" height="10" fill="#EB4FC9"/>
+              <defs>
+              <filter id="filter0_d" x="-24" y="-192" width="308" height="434" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+              <feOffset dy="4"/>
+              <feGaussianBlur stdDeviation="2"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+              </defs>
+            </svg>
+          Spaces: <span id="spaces"></span>
+        </li>
+        <li>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="4117" height="2830" transform="translate(-2116 -590)" fill="#E0E0E0"/>
+              <g filter="url(#filter0_d)">
+              <path d="M-20 -242H280V184H-20V-242Z" fill="white"/>
+              </g>
+              <rect width="24" height="24" rx="4" fill="#EDF8FF"/>
+              <path d="M6.01758 13.6035L7.18945 9.66016H9.00586L6.45703 16.9844L6.31641 17.3184C5.9375 18.1465 5.3125 18.5605 4.44141 18.5605C4.19531 18.5605 3.94531 18.5234 3.69141 18.4492V17.166L3.94922 17.1719C4.26953 17.1719 4.50781 17.123 4.66406 17.0254C4.82422 16.9277 4.94922 16.7656 5.03906 16.5391L5.23828 16.0176L3.01758 9.66016H4.83984L6.01758 13.6035ZM12.5098 16.1172C11.5801 16.1172 10.8223 15.832 10.2363 15.2617C9.6543 14.6914 9.36328 13.9316 9.36328 12.9824V12.8184C9.36328 12.1816 9.48633 11.6133 9.73242 11.1133C9.97852 10.6094 10.3262 10.2227 10.7754 9.95312C11.2285 9.67969 11.7441 9.54297 12.3223 9.54297C13.1895 9.54297 13.8711 9.81641 14.3672 10.3633C14.8672 10.9102 15.1172 11.6855 15.1172 12.6895V13.3809H11.0801C11.1348 13.7949 11.2988 14.127 11.5723 14.377C11.8496 14.627 12.1992 14.752 12.6211 14.752C13.2734 14.752 13.7832 14.5156 14.1504 14.043L14.9824 14.9746C14.7285 15.334 14.3848 15.6152 13.9512 15.8184C13.5176 16.0176 13.0371 16.1172 12.5098 16.1172ZM12.3164 10.9141C11.9805 10.9141 11.707 11.0273 11.4961 11.2539C11.2891 11.4805 11.1562 11.8047 11.0977 12.2266H13.4531V12.0918C13.4453 11.7168 13.3438 11.4277 13.1484 11.2246C12.9531 11.0176 12.6758 10.9141 12.3164 10.9141ZM19.5176 14.248C19.5176 14.041 19.4141 13.8789 19.207 13.7617C19.0039 13.6406 18.6758 13.5332 18.2227 13.4395C16.7148 13.123 15.9609 12.4824 15.9609 11.5176C15.9609 10.9551 16.1934 10.4863 16.6582 10.1113C17.127 9.73242 17.7383 9.54297 18.4922 9.54297C19.2969 9.54297 19.9395 9.73242 20.4199 10.1113C20.9043 10.4902 21.1465 10.9824 21.1465 11.5879H19.4531C19.4531 11.3457 19.375 11.1465 19.2188 10.9902C19.0625 10.8301 18.8184 10.75 18.4863 10.75C18.2012 10.75 17.9805 10.8145 17.8242 10.9434C17.668 11.0723 17.5898 11.2363 17.5898 11.4355C17.5898 11.623 17.6777 11.7754 17.8535 11.8926C18.0332 12.0059 18.334 12.1055 18.7559 12.1914C19.1777 12.2734 19.5332 12.3672 19.8223 12.4727C20.7168 12.8008 21.1641 13.3691 21.1641 14.1777C21.1641 14.7559 20.916 15.2246 20.4199 15.584C19.9238 15.9395 19.2832 16.1172 18.498 16.1172C17.9668 16.1172 17.4941 16.0234 17.0801 15.8359C16.6699 15.6445 16.3477 15.3848 16.1133 15.0566C15.8789 14.7246 15.7617 14.3672 15.7617 13.9844H17.3672C17.3828 14.2852 17.4941 14.5156 17.7012 14.6758C17.9082 14.8359 18.1855 14.916 18.5332 14.916C18.8574 14.916 19.1016 14.8555 19.2656 14.7344C19.4336 14.6094 19.5176 14.4473 19.5176 14.248Z" fill="#0F94DF"/>
+              <defs>
+              <filter id="filter0_d" x="-24" y="-242" width="308" height="434" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+              <feOffset dy="4"/>
+              <feGaussianBlur stdDeviation="2"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+              </defs>
+            </svg>
+          Words: <span id="words"></span>
+      </li>
+    </ul>
+</div>
+
+<div id="nothing-selected" class="counter-body">
+
+    <svg width="180" height="96" viewBox="0 0 180 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="4117" height="2830" transform="translate(-1392 -424)" fill="#E0E0E0"/>
+      <g filter="url(#filter0_d)">
+      <path d="M-59 -76H241V350H-59V-76Z" fill="white"/>
+      </g>
+      <rect width="180" height="96" fill="white"/>
+      <rect x="105.5" y="54.5" width="34" height="34" fill="white" stroke="#E3E3E3"/>
+      <rect width="8" height="8" transform="matrix(-1 0 0 1 70 88)" fill="#EBEBEB"/>
+      <rect x="65" y="27" width="13" height="13" fill="#EDF8FF"/>
+      <rect x="-0.5" y="0.5" width="16" height="16" transform="matrix(-1 0 0 1 23 46)" fill="white" stroke="#F2F2F2"/>
+      <rect x="52.5" y="37.5" width="75" height="37" stroke="#767676"/>
+      <rect x="48.5" y="71.5" width="7" height="7" fill="white" stroke="#767676"/>
+      <rect x="48.5" y="33.5" width="7" height="7" fill="white" stroke="#767676"/>
+      <rect x="124.5" y="33.5" width="7" height="7" fill="white" stroke="#767676"/>
+      <rect x="124.5" y="71.5" width="7" height="7" fill="white" stroke="#767676"/>
+      <rect x="121" width="19" height="19" fill="#F4F4F4"/>
+      <defs>
+      <filter id="filter0_d" x="-63" y="-76" width="308" height="434" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+      </filter>
+      </defs>
+      </svg>
+      
+
+  <h4>Select a text layer to get started</h4>
+  <p>Groups and multiple selections do not work yet.</p>
+
+</div>
+
+<div id="not-text" class="counter-body">
+
+    <svg width="180" height="96" viewBox="0 0 180 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="4117" height="2830" transform="translate(-2881 -424)" fill="#E0E0E0"/>
+      <g filter="url(#filter0_d)">
+      <path d="M-60 -76H240V350H-60V-76Z" fill="white"/>
+      </g>
+      <rect width="180" height="96" fill="white"/>
+      <rect x="104" y="54" width="35" height="35" fill="#18A0FB"/>
+      <rect width="8" height="8" transform="matrix(-1 0 0 1 69 88)" fill="#EBEBEB"/>
+      <rect x="64" y="27" width="13" height="13" fill="#EDF8FF"/>
+      <rect x="-0.5" y="0.5" width="16" height="16" transform="matrix(-1 0 0 1 22 46)" fill="white" stroke="#F2F2F2"/>
+      <rect x="32.5" y="37.5" width="113" height="37" stroke="#EB4FC9"/>
+      <rect x="28.5" y="71.5" width="7" height="7" fill="white" stroke="#EB4FC9"/>
+      <rect x="28.5" y="33.5" width="7" height="7" fill="white" stroke="#EB4FC9"/>
+      <rect x="142.5" y="33.5" width="7" height="7" fill="white" stroke="#EB4FC9"/>
+      <rect x="142.5" y="71.5" width="7" height="7" fill="white" stroke="#EB4FC9"/>
+      <rect x="120" width="19" height="19" fill="#F4F4F4"/>
+      <defs>
+      <filter id="filter0_d" x="-64" y="-76" width="308" height="434" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+      </filter>
+      </defs>
+      </svg>
+      
+      
+      
+      
+    <h4>This doesn’t look like a text layer</h4>
+    <p>Groups and multiple selections do not work yet. Select a text layer and try again.</p>
+  
+  </div>
+
+<button id="count">Analyse selection</button>
 
 <script>
 
 document.getElementById('count').onclick = () => {
+  // Trigger plugin logic
   parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
 }
 
 onmessage = (event) => {
-  if (event.data.pluginMessage === 'notext') {
-    alert('notext')
+
+  // Get info from plugin weather or not selection is a text layer
+  if (event.data.pluginMessage.type === 'not-text') {
+
+    // Manage visibility of states 
+    document.getElementById('nothing-selected').style.display = "none";
+    document.getElementById('text-counted').style.display = "none";
+    document.getElementById('not-text').style.display = "block";
+    
+    // Feed the data to the ui
+    document.getElementById('layername').innerHTML = event.data.pluginMessage.layerName
   }
   else {
-    document
-      .getElementById('characters')
-      .innerHTML = event.data.pluginMessage.charCount
-    document
-      .getElementById('spaces')
-      .innerHTML = event.data.pluginMessage.spaceCount
-    document
-      .getElementById('alphabetic')
-      .innerHTML = event.data.pluginMessage.alphaCount
-    document
-      .getElementById('words')
-      .innerHTML = event.data.pluginMessage.wordCount
+
+    // Manage visibility of states
+    document.getElementById('nothing-selected').style.display = "none";
+    document.getElementById('text-counted').style.display = "block";
+    document.getElementById('not-text').style.display = "none";
+   
+    // Feed the data to the ui
+    document.getElementById('layername').innerHTML = event.data.pluginMessage.layerName
+    document.getElementById('characters').innerHTML = event.data.pluginMessage.charCount
+    document.getElementById('spaces').innerHTML = event.data.pluginMessage.spaceCount
+    document.getElementById('alphabetic').innerHTML = event.data.pluginMessage.alphaCount
+    document.getElementById('words').innerHTML = event.data.pluginMessage.wordCount
   }
 }
 </script>
