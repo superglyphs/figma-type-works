@@ -15,7 +15,7 @@ h3 {
   font-weight: 300;
   font-size: 12px;
   text-transform: uppercase;
-  color: #5B5B5B;
+  color: #333333;
 }
 
 h4 {
@@ -30,7 +30,7 @@ p {
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
-  color: #5B5B5B;
+  color: #333333;
 }
 
 ul {
@@ -44,16 +44,16 @@ ul li {
   line-height: 48px;
   text-align: left;
   text-transform: uppercase;
-  color: #5B5B5B;
-  font-weight: bold;
+  color: #333333;
+  font-weight: normal;
   font-size: 12px;
   border-bottom: 1px dashed #E0E0E0;
 }
 
 ul li span {
   float: right;
-  font-weight: normal;
-  color: #303030;
+  font-weight: bold;
+  color: #333333;
   font-size: 16px;
 }
 
@@ -99,24 +99,33 @@ button:active {
   display: none;
 }
 
-#layername {
+#layer-name {
   text-transform: none;
-  color: #18A0FB;
   display: inline-block;
-  overflow: hidden;
   width: 80%;
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+#layer-name .lname {
+  color: #18A0FB;
+  font-weight: bold;
   text-overflow: ellipsis;
   height: 16px;
-  font-size: 12px;
-  margin-top: 8px;
+  white-space: nowrap;
+  width: 200px;
+  display: inline-block;
+  overflow: hidden;
 }
 
 </style>
 
-<div id="layername"> </div>
-
 <div id="text-counted" class="counter-body">
-    <h3>Character Count</h3>
+  <div id="layer-name">
+    <span>Layer name:</span>
+    <br>
+    <div class="lname"></div>
+  </div>
     <ul>
         <li>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,9 +148,10 @@ button:active {
               </filter>
               </defs>
             </svg>              
-          Total: <span id="characters"></span>
+          Characters: <span id="characters"></span>
         </li>
-        <li>
+        <!-- TO DO: Alphabetics and special character support -->
+        <!-- <li>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="4117" height="2830" transform="translate(-2116 -491)" fill="#E0E0E0"/>
               <g filter="url(#filter0_d)">
@@ -164,7 +174,7 @@ button:active {
               </defs>
             </svg>                           
           Alphabetic: <span id="alphabetic"></span>
-        </li>
+        </li> -->
         <li>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="4117" height="2830" transform="translate(-2116 -540)" fill="#E0E0E0"/>
@@ -247,7 +257,7 @@ button:active {
       
 
   <h4>Select a text layer to get started</h4>
-  <p>Groups and multiple selections do not work yet.</p>
+  <p>Groups, multiple layer selections and text selections do not work yet.</p>
 
 </div>
 
@@ -282,17 +292,18 @@ button:active {
       </defs>
       </svg>
       
-      
-      
-      
     <h4>This doesn’t look like a text layer</h4>
-    <p>Groups and multiple selections do not work yet. Select a text layer and try again.</p>
+    <p>Groups, multiple layer selections and text selections do not work yet. Select a text layer and try again.</p>
   
   </div>
 
-<button id="count">Analyse selection</button>
+<button id="count">Analyse text layer</button>
 
 <script>
+
+document.onload = function() {
+  parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
+}
 
 document.getElementById('count').onclick = () => {
   // Trigger plugin logic
@@ -310,8 +321,9 @@ onmessage = (event) => {
     document.getElementById('not-text').style.display = "block";
     
     // Feed the data to the ui
-    document.getElementById('layername').innerHTML = event.data.pluginMessage.layerName
+    document.querySelector('.lname').innerHTML = event.data.pluginMessage.layerName
   }
+
   else {
 
     // Manage visibility of states
@@ -320,11 +332,12 @@ onmessage = (event) => {
     document.getElementById('not-text').style.display = "none";
    
     // Feed the data to the ui
-    document.getElementById('layername').innerHTML = event.data.pluginMessage.layerName
+    document.querySelector('.lname').innerHTML = event.data.pluginMessage.layerName
     document.getElementById('characters').innerHTML = event.data.pluginMessage.charCount
     document.getElementById('spaces').innerHTML = event.data.pluginMessage.spaceCount
-    document.getElementById('alphabetic').innerHTML = event.data.pluginMessage.alphaCount
+    // TO DO: Add separation between special and alphabetic characters
+    // document.getElementById('alphabetic').innerHTML = event.data.pluginMessage.alphaCount
     document.getElementById('words').innerHTML = event.data.pluginMessage.wordCount
   }
-}
+} 
 </script>

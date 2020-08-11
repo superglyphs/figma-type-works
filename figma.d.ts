@@ -2,7 +2,8 @@
 declare const figma: PluginAPI
 declare const __html__: string
 
-interface PluginAPI {
+interface PluginAPI { 
+  
   readonly apiVersion: "1.0.0"
   readonly command: string
   readonly root: DocumentNode

@@ -1,5 +1,5 @@
 figma.showUI(__html__);
-figma.ui.resize(300, 360);
+figma.ui.resize(300, 320);
 figma.ui.onmessage = msg => {
     if (msg.type === 'count-characters') {
         // the for is loop due to near future multiple selection features
@@ -10,8 +10,8 @@ figma.ui.onmessage = msg => {
                 const chars = node.characters.length;
                 // counts spaces
                 const spaces = node.characters.split(" ").length - 1;
-                // counts only alphabetic characters
-                let alphabetics = !node.characters.match(/[0-9]+$/g) ? node.characters.match(/[a-zA-Z]+/g).join('').length : 0;
+                // TO DO: counts only alphabetic characters
+                let alphabetics = node.characters.match(/[\u0000-~Ā-žƀ-ɎͰ-ϾЀ-ӾԀ-\u052eἀ-῾Ⱡ-\u2c7e\u2de0-\u2dfeꙀ-\ua69e꜠-ꟾ]+/g).join('').length;
                 // counts words
                 const words = node.characters.split(/ +/).length;
                 // name 
