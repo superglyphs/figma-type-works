@@ -5,6 +5,13 @@ figma.ui.onmessage = msg => {
 
   if (msg.type === 'count-characters') {
 
+    // if nothing is selected, let the UI know
+    if (figma.currentPage.selection.length === 0) {
+      figma.ui.postMessage({
+        selectionStatus: 'nothing-selected'
+      })
+    }
+
     // the for is loop due to near future multiple selection features
     for (const node of figma.currentPage.selection) {
       
@@ -28,7 +35,7 @@ figma.ui.onmessage = msg => {
 
         // sends count data to ui
         figma.ui.postMessage({
-          type: 'text',
+          selectionStatus: 'yes-text',
           layerName: name,
           spaceCount: spaces, 
           charCount: chars,
@@ -37,12 +44,11 @@ figma.ui.onmessage = msg => {
         })
       }
 
-
       // signal to ui that selection is not text
-      else {
+      if (node.type != "TEXT") {
         const name = node.name;
         figma.ui.postMessage({
-          type: 'not-text',
+          selectionStatus: 'not-text',
           layerName: name
         })
       }

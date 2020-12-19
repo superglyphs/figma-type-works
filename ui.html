@@ -305,15 +305,27 @@ document.onload = function() {
   parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
 }
 
-document.getElementById('count').onclick = () => {
+window.onclick = () => {
   // Trigger plugin logic
   parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
+  console.log('click')
 }
 
 onmessage = (event) => {
 
-  // Get info from plugin weather or not selection is a text layer
-  if (event.data.pluginMessage.type === 'not-text') {
+  // Get info from plugin about the selection
+
+  // If the there is no selection, display a message
+  if (event.data.pluginMessage.selectionStatus === 'nothing-selected') {
+    
+    // Manage visibility of states
+    document.getElementById('nothing-selected').style.display = "block";
+    document.getElementById('text-counted').style.display = "none";
+    document.getElementById('not-text').style.display = "none";
+  }
+
+  // If the selection isn't text, display a message
+  if (event.data.pluginMessage.selectionStatus === 'not-text') {
 
     // Manage visibility of states 
     document.getElementById('nothing-selected').style.display = "none";
@@ -324,7 +336,7 @@ onmessage = (event) => {
     document.querySelector('.lname').innerHTML = event.data.pluginMessage.layerName
   }
 
-  else {
+  if (event.data.pluginMessage.selectionStatus === 'yes-text') {
 
     // Manage visibility of states
     document.getElementById('nothing-selected').style.display = "none";
