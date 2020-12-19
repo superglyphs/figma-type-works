@@ -1,9 +1,9 @@
 figma.showUI(__html__);
-figma.ui.resize(300, 320)
+figma.ui.resize(300, 240)
 
-figma.ui.onmessage = msg => {
+// figma.on("selectionchange", () => { console.log("changed") })
 
-  if (msg.type === 'count-characters') {
+  figma.on("selectionchange", () => {
 
     // if nothing is selected, let the UI know
     if (figma.currentPage.selection.length === 0) {
@@ -53,7 +53,4 @@ figma.ui.onmessage = msg => {
         })
       }
     }
-
-
-  }
-};
+  });

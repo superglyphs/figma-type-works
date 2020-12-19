@@ -50,6 +50,10 @@ ul li {
   border-bottom: 1px dashed #E0E0E0;
 }
 
+ul li:last-child {
+  border-bottom: none;
+}
+
 ul li span {
   float: right;
   font-weight: bold;
@@ -111,11 +115,44 @@ button:active {
   color: #18A0FB;
   font-weight: bold;
   text-overflow: ellipsis;
+  font-size: 16px;
   height: 16px;
   white-space: nowrap;
   width: 200px;
   display: inline-block;
   overflow: hidden;
+}
+
+.pop {
+  animation: pop .3s;
+}
+
+.pop2 {
+  animation: pop2 .3s;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pop2 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 </style>
@@ -124,7 +161,7 @@ button:active {
   <div id="layer-name">
     <span>Layer name:</span>
     <br>
-    <div class="lname"></div>
+    <div class="lname pop"></div>
   </div>
     <ul>
         <li>
@@ -297,19 +334,7 @@ button:active {
   
   </div>
 
-<button id="count">Analyse text layer</button>
-
 <script>
-
-document.onload = function() {
-  parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
-}
-
-window.onclick = () => {
-  // Trigger plugin logic
-  parent.postMessage({ pluginMessage: { type: 'count-characters' } }, '*')
-  console.log('click')
-}
 
 onmessage = (event) => {
 
@@ -343,10 +368,14 @@ onmessage = (event) => {
     document.getElementById('text-counted').style.display = "block";
     document.getElementById('not-text').style.display = "none";
    
+    // Trigger animation
+    document.querySelector('.lname').classList.toggle("pop2");
+   
     // Feed the data to the ui
     document.querySelector('.lname').innerHTML = event.data.pluginMessage.layerName
     document.getElementById('characters').innerHTML = event.data.pluginMessage.charCount
     document.getElementById('spaces').innerHTML = event.data.pluginMessage.spaceCount
+    
     // TO DO: Add separation between special and alphabetic characters
     // document.getElementById('alphabetic').innerHTML = event.data.pluginMessage.alphaCount
     document.getElementById('words').innerHTML = event.data.pluginMessage.wordCount
